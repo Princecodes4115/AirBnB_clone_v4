@@ -1,5 +1,6 @@
 /*
   Listen for changes on each INPUT checkbox tag
+  If in the API status is “OK”, add the class available to the DIV#api_status
 */
 
 $(document).ready(() => {
@@ -16,6 +17,17 @@ $(document).ready(() => {
     } else {
       $('.amenities H4').html('&nbsp;');
     }
+  });
+
+  $.get('http://0.0.0.0:5001/api/v1/status/', function (data, textStatus) {
+    if (data.status === 'OK') {
+      $('DIV#api_status').addClass('available');
+    } else {
+      $('DIV#api_status').removeClass('available');
+    }
+  }).fail(function () {
+    window.alert('Server response not received.');
+    $('DIV#api_status').removeClass('available');
   });
 
   /* Add css */
